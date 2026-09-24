@@ -1,15 +1,22 @@
-# 示例工程
+# Chisel + NVBoard 示例工程
 
-先设置环境变量`NVBOARD_HOME`为NVBoard项目的路径, 然后执行`make run`.
+这个工程使用 Mill 编译 Chisel，并通过 Verilator 接入 NVBoard。顶层模块只有一个组合逻辑连接：
 
-该示例的演示效果如下:
-1. 左边8个LED为流水灯效果
-1. 拨动右边的8个拨码开关, 可控制对应LED的亮灭
-1. 按下按钮可将8~12号中对应的LED亮灭效果取反
-1. 8个数码管流水显示数字0-7
-1. 窗口左下角为VGA输出, 将会展示一张图片
-1. 敲击键盘, 终端将会输出按键的扫描码
-1. 窗口右侧中部为UART终端
-   * 鼠标选中后光标变为粉红色, 此时的按键输入将被UART RX端捕捉
-   * UART RX端发送的输入将通过回环连接从UART TX端输出, 并在UART终端上显示
-   * 鼠标点击UART终端以外的其他位置, 可取消选中UART终端, 光标变为黑色, 后续按键输入将被PS/2键盘捕捉
+```text
+SW0 (in) ───> out ───> LD0
+```
+
+在 `lesson1` 目录执行 `make run` 即可启动。`NVBOARD_HOME` 默认指向本仓库的上一级目录；如果工程被复制到其他位置，请先设置它：
+
+```bash
+export NVBOARD_HOME=/path/to/nvboard
+make run
+```
+
+构建过程会依次执行：
+
+1. Mill 调用 `top.runMain top.topMain -td vsrc --emit-modules verilog`，把 `scala/top.scala` 生成为 `vsrc/top.v`。
+2. `auto_pin_bind.py` 根据 `constr/top.nxdc` 生成 NVBoard 引脚绑定代码。
+3. Verilator 编译 Verilog、C++ 仿真入口和 NVBoard 库。
+
+拨动 NVBoard 的 `SW0` 后，`LD0` 会显示同一个逻辑值。

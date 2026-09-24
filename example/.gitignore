@@ -1,2 +1,5 @@
 !resource/*.hex
 !constr/*.nxdc
+build/
+vsrc/
+out/
