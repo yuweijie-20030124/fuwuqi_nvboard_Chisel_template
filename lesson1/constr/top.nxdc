@@ -1,0 +1,10 @@
+top=top
+
+# 4 路 2-bit 数据输入 + 1 路 2-bit 选择信号,各占 2 个拨码开关
+io_mux_in1 (SW1, SW0)
+io_mux_in2 (SW3, SW2)
+io_mux_in3 (SW5, SW4)
+io_mux_in4 (SW7, SW6)
+io_control (SW9, SW8)
+# 2-bit 输出显示在 2 个 LED 上
+io_out (LD1, LD0)
