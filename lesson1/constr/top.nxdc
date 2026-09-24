@@ -1,0 +1,5 @@
+top=top
+
+# SW0 drives the one-bit input; LD0 displays the one-bit output.
+io_in SW0
+io_out LD0
